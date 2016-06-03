@@ -96,6 +96,42 @@ var traps1 = {
     106:{60:2,63:3}
 };
 
+var traps2 = {
+    //N
+    110:{40:2,48:1},
+    111:{48:4,45:1},
+    112:{41:4,40:3},
+    113:{45:2,46:1,42:4,41:3},
+    114:{46:2,47:1,43:4,42:3},
+    115:{47:2,48:1,44:4,43:3},
+    116:{40:2,44:3},
+    117:{48:4,40:3},
+
+    //I
+    120:{40:1,42:4, 46:1,48:4},
+    121:{42:3,46:4},
+    123:{42:2,46:1},
+    124:{40:2,42:3, 46:2,48:3},
+
+    //K
+    130:{40:2,48:1},
+    131:{40:3,43:4,45:1,48:4},
+    133:{42:2,43:3,45:2,46:1},
+    134:{41:2,42:3,43:1,45:4,46:2,47:1},
+    135:{40:2,41:3,47:2,48:1},
+    136:{42:1,43:4,45:3,46:4},
+    137:{41:1,42:4,46:3,47:4},
+    138:{40:3,41:4,47:3,48:4},
+
+    //A
+    140:{44:1,48:4},
+    141:{44:4,41:1},
+    142:{41:4,40:1,46:2,48:3},
+    145:{41:1,40:2,46:3,48:4},
+    146:{44:1,41:2},
+    147:{44:2,48:3}
+};
+
 function insRect(x,y){
     ctx.fillStyle="#FFFF00";
     ctx.fillRect(x*4,y*4,4,4);
@@ -167,20 +203,23 @@ function snake(state){
     if(traps1[nx] && traps1[nx][ny]){
         state.direction = traps1[nx][ny];
     }
+    if(traps2[nx] && traps2[nx][ny]){
+        state.direction = traps2[nx][ny];
+    }
 
     for(var i in keys){
         insRect(state.points[keys[i]].x, state.points[keys[i]].y);
     }
 }
-//                H   A   P   P   Y   B   I   R   T   H   D   A   Y
-var x_coords   = [30, 40, 50, 60, 70, 30, 40, 50, 60, 70, 80, 90, 100];
-var lengths    = [35, 30, 20, 22, 30, 25, 25, 30, 25, 35, 30, 30, 30];
-var diections  = [2, 2, 2, 2, 2,      4, 4, 4, 4, 4, 4, 4, 4];
+//                H   A   P   P   Y   B   I   R   T   H   D   A   Y    N    I    K    A
+var x_coords   = [30, 40, 50, 60, 70, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140];
+var lengths    = [35, 30, 20, 22, 30, 25, 25, 30, 25, 35, 30, 30, 30,  35,  25,  35,  30];
+var diections  = [2, 2, 2, 2, 2,      4, 4, 4, 4, 4, 4, 4, 4,          2,   2,   2,   2 ];
 
 function load(){
     var c=document.getElementById("myCanvas");
     ctx=c.getContext("2d");
-    for(var i =0; i<13; i++){
+    for(var i =0; i<17; i++){
         snakes[i] = generate_snake(x_coords[i], diections[i]==2?lengths[i]:120-lengths[i], lengths[i], diections[i]);
         setInterval("snake(snakes["+i+"]);", 50);
     }
